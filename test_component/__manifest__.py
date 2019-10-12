@@ -13,7 +13,7 @@
  'website': 'https://www.camptocamp.com',
  'data': ['security/ir.model.access.csv',
           ],
- 'installable': False,
+ 'installable': True,
  'development_status': 'Stable',
  'maintainers': ['guewen'],
  }

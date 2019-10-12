@@ -59,7 +59,6 @@ class Collection(models.AbstractModel):
     _description = 'Base Abstract Collection'
 
     @contextmanager
-    @api.multi
     def work_on(self, model_name, **kwargs):
         """ Entry-point for the components, context manager
 
@@ -71,7 +70,6 @@ class Collection(models.AbstractModel):
         at the end of the work session, such as::
 
             @contextmanager
-            @api.multi
             def work_on(self, model_name, **kwargs):
                 self.ensure_one()
                 magento_location = MagentoLocation(

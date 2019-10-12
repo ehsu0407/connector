@@ -15,7 +15,6 @@ Trigger and listen an event
   class AccountInvoice(models.Model):
       _inherit = 'account.invoice'
 
-      @api.multi
       def action_invoice_paid(self):
           res = super(AccountInvoice, self).action_invoice_paid()
           for record in self:
@@ -52,12 +51,10 @@ Delay an Asynchronous Job
         _inherit = 'account.invoice'
 
         @job
-        @api.multi
         def export_payment(self):
             self.ensure_one()
             _logger.info("I'm exporting the payment for %s", self.name)
 
-        @api.multi
         def action_invoice_paid(self):
             res = super(AccountInvoice, self).action_invoice_paid()
             for record in self:

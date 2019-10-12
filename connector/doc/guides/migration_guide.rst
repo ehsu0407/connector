@@ -88,7 +88,6 @@ After
 
         @job(default_channel='root.magento')
         @related_action(action='related_action_unwrap_binding')
-        @api.multi
         def export_record(self, fields=None):
             """ Export a record on Magento """
             self.ensure_one()
@@ -134,12 +133,10 @@ Before
         _name = 'my.binding'
         _inherit = 'magento.binding'
 
-        @api.multi
         def button_trigger_export_sync(self):
             session = ConnectorSession.from_env(self.env)
             export_record(session, binding._name, self.id, fields=['name'])
 
-        @api.multi
         def button_trigger_export_async(self):
             session = ConnectorSession.from_env(self.env)
             export_record.delay(session, self._name, self.id,
@@ -154,11 +151,9 @@ After
     class MyBinding(models.Model):
         _name = 'my.binding'
 
-        @api.multi
         def button_trigger_export_sync(self):
             self.export_record(fields=['name'])
 
-        @api.multi
         def button_trigger_export_async(self):
             self.with_delay(priority=12).export_record(fields=['name'])
 

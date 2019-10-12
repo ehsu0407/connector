@@ -43,7 +43,7 @@ class ComponentBuilder(models.AbstractModel):
 
     _components_registry_cache_size = DEFAULT_CACHE_SIZE
 
-    @api.model_cr
+    @api.model
     def _register_hook(self):
         # This method is called by Odoo when the registry is built,
         # so in case the registry is rebuilt (cache invalidation, ...),
