@@ -846,7 +846,7 @@ class ImportMapper(AbstractComponent):
             return from_attr(self, record, to_attr)
 
         value = record.get(from_attr)
-        if not value:
+        if value is None:
             return False
 
         # Backward compatibility: when a field is a relation, and a modifier is
