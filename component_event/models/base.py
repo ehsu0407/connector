@@ -63,6 +63,9 @@ class Base(models.AbstractModel):
 
         """
         dbname = self.env.cr.dbname
+        components_registry = self.env.context.get(
+            "components_registry", components_registry
+        )
         comp_registry = components_registry or _component_databases.get(dbname)
         if not comp_registry or not comp_registry.ready:
             # No event should be triggered before the registry has been loaded
@@ -94,12 +97,13 @@ class Base(models.AbstractModel):
         collecter = work._component_class_by_name("base.event.collecter")(work)
         return collecter.collect_events(name)
 
-    @api.model
-    def create(self, vals):
-        record = super(Base, self).create(vals)
-        fields = list(vals.keys())
-        self._event("on_record_create").notify(record, fields=fields)
-        return record
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super(Base, self).create(vals_list)
+        for idx, vals in enumerate(vals_list):
+            fields = list(vals.keys())
+            self._event("on_record_create").notify(records[idx], fields=fields)
+        return records
 
     def write(self, vals):
         result = super(Base, self).write(vals)
